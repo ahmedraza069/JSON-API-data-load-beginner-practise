@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API JSON</title>
+</head>
+<body>
+    <h1>JSON</h1>
+    <h2>JavaScript Object Notation</h2>
+    <ul id="user-container">
+    </ul>
+
+    <input type="text" placeholder="Enter your name" id="userName" style="margin-bottom: 10px;">
+    <br>
+    <input type="text" placeholder="Enter your Age" id="yourAge" style="margin-bottom: 10px;">
+    <br>
+    <input type="text" placeholder="Enter your height" id="yourHeight" style="margin-bottom: 10px;">
+    <br>
+    <button id="submit">Submit</button>
+
+    <script>
+        // const user = {
+        //     id: 231,
+        //     name: 'Masud',
+        //     lover:{
+        //         name: 'jamila',
+        //         favFood:'pizza'
+        //         },
+        //     friendAge:[12,24,25], 
+        //     friends:['kamal', 'jamal', 'abdul'],
+        //     };
+        // //           {"id":231,"name":"Masud"}
+        // const userJson = JSON.stringify(user);
+        // console.log(userJson);
+        // const userJsonFrom = JSON.parse(userJson);
+        // console.log(userJsonFrom);
+
+
+        // json placeholder about
+
+        document.getElementById('submit').addEventListener('click', function(){
+          const userName = document.getElementById('userName').value;
+          const userAge = document.getElementById('yourAge').value;
+          const userHeight = document.getElementById('yourHeight').value;
+          const post = {Name: userName, Age: userAge, Height: userHeight};
+          postInfo(post);
+        })
+
+
+
+
+
+          function postInfo(post){
+                      fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify(post),
+            headers: {
+             'Content-type': 'application/json; charset=UTF-8',
+            },
+              })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+          }
+
+
+
+
+
+
+
+        fetch('https://jsonplaceholder.typicode.com/users')
+        // http request gulo holo get and post
+      .then(response => response.json())
+      .then(json => displayUser(json))
+      .catch(error => console.log(error));
+
+      function displayUser(users){
+        const userNames = users.map(user => user.username);
+        const ul = document.getElementById('user-container');
+        for (let i = 0; i < userNames.length; i++) {
+            const user = userNames[i];
+            const li = document.createElement('li');
+            li.innerText = user;
+            ul.appendChild(li);
+           }
+       }
+    </script>
+
+</body>
+</html>
